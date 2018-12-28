@@ -4,15 +4,15 @@ const base = "http://localhost:3000/";
 
 describe("routes : static", () => {
 
-    // describe("GET /", () => {
-    //     it("should return a status code 200", (done) => {
-    //         request.get(base, (err, res, body) => {
-    //             expect(res.statusCode).toBe(200);
+    describe("GET /", () => {
+        it("should return a status code 200", (done) => {
+            request.get(base, (err, res, body) => {
+                expect(res.statusCode).toBe(200);
 
-    //             done();
-    //         });
-    //     });
-    // });
+                done();
+            });
+        });
+    });
 
     describe("GET /marco", () => {
         it("should return a status code 200", (done) => {
@@ -20,7 +20,7 @@ describe("routes : static", () => {
                 expect(res.statusCode).toBe(200);
                 expect(body).toBe("polo");
                 done();
-            })
-        })
-    })
+            });
+        });
+    });
 })
