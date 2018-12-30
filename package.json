@@ -14,7 +14,11 @@
     "request": "^2.83.0"
   },
   "dependencies": {
+<<<<<<< HEAD
     "dotenv": "^5.0.0",
+=======
+    "ejs": "^2.5.7",
+>>>>>>> checkpoint-routing-controllers-view
     "express": "^4.16.2"
   }
 }
