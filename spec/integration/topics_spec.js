@@ -36,4 +36,15 @@ describe("routes : topics", () => {
             });
         });
     });
+
+    describe("GET /topics/new", () => {
+        it("should render a new topic form", (done) => {
+            request.get(`${base}new`, (err, res, body) => {
+                expect(res.statusCode).toBe(200);
+                expect(err).toBeNull();
+                expect(body).toContain("New Topic");
+                done();
+            });
+        });
+    });
 });
