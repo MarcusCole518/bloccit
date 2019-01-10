@@ -64,7 +64,11 @@ describe("routes : topics", () => {
                     expect(topic.title).toBe("blink-182 songs");
                     expect(topic.description).toBe("What's your favorite blink-182 song?");
                     done();
-                });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    done();
+                })
             });
         });
     });
