@@ -29,7 +29,8 @@ module.exports = {
     getTopic(id, callback){
         return Topic.findById(id, {
             include: [
-                {model: Post, as: "posts"}
+                {model: Post, as: "posts"},
+                {model: Flair, as: "flairs"}
             ]
         })
         .then((topic) => {
