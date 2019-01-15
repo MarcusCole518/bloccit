@@ -41,11 +41,13 @@ module.exports = {
         }
 
         const errors = req.validationErrors();
+        console.log(errors);
 
         if(errors){
             req.flash("error", errors);
             return res.redirect(req.headers.referer);
         } else {
+            console.log("here");
             return next();
         }
     }
