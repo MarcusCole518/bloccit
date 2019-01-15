@@ -1,34 +1,46 @@
 const sequelize = require("../../src/db/models/index").sequelize;
 const Post = require("../../src/db/models").Post;
 const Topic = require("../../src/db/models").Topic;
+const User = require("../../src/db/models").User;
+
 describe("Topic", () => {
 
     beforeEach((done) => {
+
         this.topic;
         this.post;
+        this.user;
+
         sequelize.sync({force: true})
         .then((res) => {
 
-            Topic.create({
-                title: "Great Beers I've Had This Week",
-                description: "A list of beers that I've enjoyed in the last 7 days"
+            User.create({
+                email: "starman@tesla.com",
+                password: "Trekkie4lyfe"
             })
-            .then((topic) => {
-                this.topic = topic;
+            .then((user) => {
+                this.user = user;
 
-                Post.create({
-                    title: "Double Dry Hopped Moral Support DIPA",
-                    body: "Delicious! Robust but still refreshing.",
-                    topicId: this.topic.id
+                Topic.create({
+                    title: "Great Beers I've Had This Week",
+                    description: "A list of beers that I've enjoyed in the last 7 days",
+
+                    posts: [{
+                        title: "Double Dry Hopped Moral Support DIPA",
+                        body: "I saw some rocks.",
+                        userId: this.user.id
+                    }]
+                }, {
+                    include: {
+                        model: Post,
+                        as: "posts"
+                    }
                 })
-                .then((post) => {
-                    this.post = post;
+                .then((topic) => {
+                    this.topic = topic;
+                    this.post = topic.posts[0];
                     done();
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-                done();
+                })
             });
         });
     });
@@ -71,7 +83,8 @@ describe("Topic", () => {
             Post.create({
                 title: "Best Pizza Flavors",
                 body: "Buffalo chicken",
-                topicId: this.topic.id
+                topicId: this.topic.id,
+                userId: this.user.id
             })
             .then((topic) => {
                 expect(this.topic.title).toBe("Great Beers I've Had This Week");
