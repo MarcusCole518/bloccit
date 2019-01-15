@@ -17,9 +17,8 @@ module.exports = {
             } else if(id == 0){
                 delete req.user;
             }
-            if(next){
-                next();
-            }
+            if(next){ next()}
+        }
             function route(req, res){
                 res.redirect("/")
             }
@@ -28,4 +27,3 @@ module.exports = {
             app.get("/auth/fake", route)
         }
     }
-}

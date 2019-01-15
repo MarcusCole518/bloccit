@@ -26,6 +26,8 @@ describe("routes : topics", () => {
         });
     });
 
+    //admin actions
+
     describe("admin user performing CRUD actions for Topic", () => {
 
         beforeEach((done) => {
@@ -157,17 +159,16 @@ describe("routes : topics", () => {
 
         describe("POST /topics/:id/update", () => {
             it("should update the topic with the given values", (done) => {
-                const options = {
+                request.post({
                     url: `${base}${this.topic.id}/update`,
                     form: {
                         title: "JavaScript Frameworks",
                         description: "There are a lot of them"
                     }
-                };
-                request.post(options, (err, res, body) => {
+                }, (err, res, body) => {
                     expect(err).toBeNull();
                     Topic.findOne({
-                        where: {id: this.topic.id}
+                        where: {id: 1}
                     })
                     .then((topic) => {
                         expect(topic.title).toBe("JavaScript Frameworks");
@@ -177,6 +178,8 @@ describe("routes : topics", () => {
             });
         });
     })
+
+    //member actions
 
     describe("member user performing CRUD actions for Topic", () => {
 
@@ -205,11 +208,11 @@ describe("routes : topics", () => {
         });
 
         describe("GET /topics/new", () => {
-            it("should render a new topic form", (done) => {
+            it("should redirect to topics view", (done) => {
                 request.get(`${base}new`, (err, res, body) => {
                     expect(res.statusCode).toBe(200);
                     expect(err).toBeNull();
-                    expect(body).toContain("New Topic");
+                    expect(body).toContain("Topics");
                     done();
                 });
             });
@@ -271,7 +274,7 @@ describe("routes : topics", () => {
             it("should not render a view with an edit topic form", (done) => {
                 request.get(`${base}${this.topic.id}/edit`, (err, res, body) => {
                     expect(err).toBeNull();
-                    expect(body).toContain("Edit Topic");
+                    expect(body).not.toContain("Edit Topic");
                     expect(body).toContain("JS Frameworks");
                     done();
                 });
@@ -279,7 +282,7 @@ describe("routes : topics", () => {
         });
 
         describe("POST /topics/:id/update", () => {
-            it("should update the topic with the given values", (done) => {
+            it("should not update the topic with the given values", (done) => {
                 const options = {
                     url: `${base}${this.topic.id}/update`,
                     form: {
