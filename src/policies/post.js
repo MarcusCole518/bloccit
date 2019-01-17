@@ -15,6 +15,6 @@ module.exports = class PostPolicy extends ApplicationPolicy {
     }
 
     destroy() {
-        return this.edit();
+        return this.edit(); //defers to edit
     }
 }
