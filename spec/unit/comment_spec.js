@@ -40,7 +40,7 @@ describe("Comment", () => {
                     this.topic = topic;
                     this.post = this.topic.posts[0];
 
-                    Comment.create( {
+                    Comment.create({
                         body: "ay caramba!!!!!",
                         userId: this.user.id,
                         postId: this.post.id
@@ -110,9 +110,50 @@ describe("Comment", () => {
                 expect(this.comment.userId).toBe(this.user.id);
                 this.comment.setUser(newUser)
                 .then((comment) => {
-                    expect(comment.userId)
-                })
+                    expect(comment.userId).toBe(newUser.id);
+                    done();
+                });
             })
-        })
-    })
+        });
+    });
+
+    describe("#getUser()", () => {
+        it("should return the associated user", (done) => {
+            this.comment.getUser()
+            .then((associatedUser) => {
+                expect(associatedUser.email).toBe("starman@tesla.com");
+                done();
+            });
+        });
+    });
+
+    describe("#setPost()", () => {
+        it("should associate a post and a comment together", (done) => {
+
+            Post.create({
+                title: "Dress code on Proxima b",
+                body: "Spacesuit, space helmet, space boots, and space gloves",
+                topicId: this.topic.id,
+                userId: this.user.id
+            })
+            .then((newPost) => {
+                expect(this.comment.postId).toBe(this.post.id);
+                this.comment.setPost(newPost)
+                .then((comment) => {
+                    expect(comment.postId).toBe(newPost.id);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe("#getPost()", () => {
+        it("should return the associated post", (done) => {
+            this.comment.getPost()
+            .then((associatedPost) => {
+                expect(associatedPost.title).toBe("My first visit to Proxima Centauri b");
+                done();
+            });
+        });
+    });
 })
