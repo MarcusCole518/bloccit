@@ -1,0 +1,465 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.1
+-- Dumped by pg_dump version 11.1
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: Banners; Type: TABLE; Schema: public; Owner: marcuslittle
+--
+
+CREATE TABLE public."Banners" (
+    id integer NOT NULL,
+    source character varying(255),
+    description character varying(255),
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "topicId" integer
+);
+
+
+ALTER TABLE public."Banners" OWNER TO marcuslittle;
+
+--
+-- Name: Banners_id_seq; Type: SEQUENCE; Schema: public; Owner: marcuslittle
+--
+
+CREATE SEQUENCE public."Banners_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Banners_id_seq" OWNER TO marcuslittle;
+
+--
+-- Name: Banners_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: marcuslittle
+--
+
+ALTER SEQUENCE public."Banners_id_seq" OWNED BY public."Banners".id;
+
+
+--
+-- Name: Comments; Type: TABLE; Schema: public; Owner: marcuslittle
+--
+
+CREATE TABLE public."Comments" (
+    id integer NOT NULL,
+    body character varying(255) NOT NULL,
+    "postId" integer NOT NULL,
+    "userId" integer NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public."Comments" OWNER TO marcuslittle;
+
+--
+-- Name: Comments_id_seq; Type: SEQUENCE; Schema: public; Owner: marcuslittle
+--
+
+CREATE SEQUENCE public."Comments_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Comments_id_seq" OWNER TO marcuslittle;
+
+--
+-- Name: Comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: marcuslittle
+--
+
+ALTER SEQUENCE public."Comments_id_seq" OWNED BY public."Comments".id;
+
+
+--
+-- Name: Posts; Type: TABLE; Schema: public; Owner: marcuslittle
+--
+
+CREATE TABLE public."Posts" (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL,
+    body character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "topicId" integer NOT NULL,
+    "userId" integer NOT NULL
+);
+
+
+ALTER TABLE public."Posts" OWNER TO marcuslittle;
+
+--
+-- Name: Posts_id_seq; Type: SEQUENCE; Schema: public; Owner: marcuslittle
+--
+
+CREATE SEQUENCE public."Posts_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Posts_id_seq" OWNER TO marcuslittle;
+
+--
+-- Name: Posts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: marcuslittle
+--
+
+ALTER SEQUENCE public."Posts_id_seq" OWNED BY public."Posts".id;
+
+
+--
+-- Name: SequelizeMeta; Type: TABLE; Schema: public; Owner: marcuslittle
+--
+
+CREATE TABLE public."SequelizeMeta" (
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public."SequelizeMeta" OWNER TO marcuslittle;
+
+--
+-- Name: Topics; Type: TABLE; Schema: public; Owner: marcuslittle
+--
+
+CREATE TABLE public."Topics" (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL,
+    description character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public."Topics" OWNER TO marcuslittle;
+
+--
+-- Name: Topics_id_seq; Type: SEQUENCE; Schema: public; Owner: marcuslittle
+--
+
+CREATE SEQUENCE public."Topics_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Topics_id_seq" OWNER TO marcuslittle;
+
+--
+-- Name: Topics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: marcuslittle
+--
+
+ALTER SEQUENCE public."Topics_id_seq" OWNED BY public."Topics".id;
+
+
+--
+-- Name: Users; Type: TABLE; Schema: public; Owner: marcuslittle
+--
+
+CREATE TABLE public."Users" (
+    id integer NOT NULL,
+    email character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    role character varying(255) DEFAULT 'member'::character varying NOT NULL
+);
+
+
+ALTER TABLE public."Users" OWNER TO marcuslittle;
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE; Schema: public; Owner: marcuslittle
+--
+
+CREATE SEQUENCE public."Users_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Users_id_seq" OWNER TO marcuslittle;
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: marcuslittle
+--
+
+ALTER SEQUENCE public."Users_id_seq" OWNED BY public."Users".id;
+
+
+--
+-- Name: Banners id; Type: DEFAULT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Banners" ALTER COLUMN id SET DEFAULT nextval('public."Banners_id_seq"'::regclass);
+
+
+--
+-- Name: Comments id; Type: DEFAULT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Comments" ALTER COLUMN id SET DEFAULT nextval('public."Comments_id_seq"'::regclass);
+
+
+--
+-- Name: Posts id; Type: DEFAULT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Posts" ALTER COLUMN id SET DEFAULT nextval('public."Posts_id_seq"'::regclass);
+
+
+--
+-- Name: Topics id; Type: DEFAULT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Topics" ALTER COLUMN id SET DEFAULT nextval('public."Topics_id_seq"'::regclass);
+
+
+--
+-- Name: Users id; Type: DEFAULT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Users" ALTER COLUMN id SET DEFAULT nextval('public."Users_id_seq"'::regclass);
+
+
+--
+-- Data for Name: Banners; Type: TABLE DATA; Schema: public; Owner: marcuslittle
+--
+
+COPY public."Banners" (id, source, description, "createdAt", "updatedAt", "topicId") FROM stdin;
+\.
+
+
+--
+-- Data for Name: Comments; Type: TABLE DATA; Schema: public; Owner: marcuslittle
+--
+
+COPY public."Comments" (id, body, "postId", "userId", "createdAt", "updatedAt") FROM stdin;
+\.
+
+
+--
+-- Data for Name: Posts; Type: TABLE DATA; Schema: public; Owner: marcuslittle
+--
+
+COPY public."Posts" (id, title, body, "createdAt", "updatedAt", "topicId", "userId") FROM stdin;
+\.
+
+
+--
+-- Data for Name: SequelizeMeta; Type: TABLE DATA; Schema: public; Owner: marcuslittle
+--
+
+COPY public."SequelizeMeta" (name) FROM stdin;
+20181231200056-create-topic.js
+20181231200729-create-banner.js
+20190108065023-create-post.js
+20190112170703-create-user.js
+20190114060315-add-user-to-posts.js
+20190114082743-add-role-to-users.js
+20190117050114-create-comment.js
+20190117063847-create-comment.js
+\.
+
+
+--
+-- Data for Name: Topics; Type: TABLE DATA; Schema: public; Owner: marcuslittle
+--
+
+COPY public."Topics" (id, title, description, "createdAt", "updatedAt") FROM stdin;
+1	sagvLISVHGlG	zheheahyWHah	2019-01-19 15:05:20.424-07	2019-01-19 15:05:20.424-07
+2	firewall	Use the virtual CSS protocol, then you can input the redundant bus!	2019-01-19 15:06:44.348-07	2019-01-19 15:06:44.348-07
+3	array	The SDD system is down, transmit the optical bus so we can synthesize the SQL microchip!	2019-01-19 15:06:44.348-07	2019-01-19 15:06:44.348-07
+4	transmitter	The XSS program is down, compress the neural application so we can input the SSL microchip!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+5	bandwidth	You can't program the driver without copying the open-source HTTP transmitter!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+6	feed	generating the monitor won't do anything, we need to generate the neural FTP card!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+7	capacitor	The THX system is down, calculate the back-end program so we can connect the SCSI capacitor!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+8	hard drive	Try to generate the PNG port, maybe it will index the cross-platform protocol!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+9	interface	Try to index the SAS driver, maybe it will quantify the cross-platform capacitor!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+10	bus	Try to back up the SSL card, maybe it will program the open-source driver!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+11	transmitter	I'll program the open-source PNG array, that should array the ADP feed!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+12	feed	You can't generate the driver without navigating the online SQL hard drive!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+13	array	Try to generate the FTP feed, maybe it will generate the neural application!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+14	alarm	Use the redundant RSS matrix, then you can generate the auxiliary pixel!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+15	bandwidth	Use the redundant TCP circuit, then you can compress the solid state port!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+16	card	I'll synthesize the solid state RSS feed, that should panel the SQL monitor!	2019-01-19 15:06:44.349-07	2019-01-19 15:06:44.349-07
+\.
+
+
+--
+-- Data for Name: Users; Type: TABLE DATA; Schema: public; Owner: marcuslittle
+--
+
+COPY public."Users" (id, email, password, "createdAt", "updatedAt", role) FROM stdin;
+1	mcolelittle@gmail.com	$2a$10$53mKbksPswDaIG9tEASyR.Rv6.bYy4bSoBcurXATOUNEf2q6MP/MK	2019-01-19 14:42:00.389-07	2019-01-19 14:42:00.389-07	admin
+\.
+
+
+--
+-- Name: Banners_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marcuslittle
+--
+
+SELECT pg_catalog.setval('public."Banners_id_seq"', 1, false);
+
+
+--
+-- Name: Comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marcuslittle
+--
+
+SELECT pg_catalog.setval('public."Comments_id_seq"', 1, false);
+
+
+--
+-- Name: Posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marcuslittle
+--
+
+SELECT pg_catalog.setval('public."Posts_id_seq"', 1, false);
+
+
+--
+-- Name: Topics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marcuslittle
+--
+
+SELECT pg_catalog.setval('public."Topics_id_seq"', 16, true);
+
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: marcuslittle
+--
+
+SELECT pg_catalog.setval('public."Users_id_seq"', 2, true);
+
+
+--
+-- Name: Banners Banners_pkey; Type: CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Banners"
+    ADD CONSTRAINT "Banners_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Comments Comments_pkey; Type: CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Comments"
+    ADD CONSTRAINT "Comments_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Posts Posts_pkey; Type: CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Posts"
+    ADD CONSTRAINT "Posts_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: SequelizeMeta SequelizeMeta_pkey; Type: CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."SequelizeMeta"
+    ADD CONSTRAINT "SequelizeMeta_pkey" PRIMARY KEY (name);
+
+
+--
+-- Name: Topics Topics_pkey; Type: CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Topics"
+    ADD CONSTRAINT "Topics_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Users Users_email_key; Type: CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Users"
+    ADD CONSTRAINT "Users_email_key" UNIQUE (email);
+
+
+--
+-- Name: Users Users_pkey; Type: CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Users"
+    ADD CONSTRAINT "Users_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Banners Banners_topicId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Banners"
+    ADD CONSTRAINT "Banners_topicId_fkey" FOREIGN KEY ("topicId") REFERENCES public."Topics"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: Comments Comments_postId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Comments"
+    ADD CONSTRAINT "Comments_postId_fkey" FOREIGN KEY ("postId") REFERENCES public."Posts"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: Comments Comments_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Comments"
+    ADD CONSTRAINT "Comments_userId_fkey" FOREIGN KEY ("userId") REFERENCES public."Users"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: Posts Posts_topicId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Posts"
+    ADD CONSTRAINT "Posts_topicId_fkey" FOREIGN KEY ("topicId") REFERENCES public."Topics"(id) ON DELETE CASCADE;
+
+
+--
+-- Name: Posts Posts_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: marcuslittle
+--
+
+ALTER TABLE ONLY public."Posts"
+    ADD CONSTRAINT "Posts_userId_fkey" FOREIGN KEY ("userId") REFERENCES public."Users"(id) ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
