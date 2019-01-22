@@ -6,7 +6,7 @@ const Comment = require("../../src/db/models").Comment;
 const User = require("../../src/db/models").User;
 const Vote = require("../../src/db/models").Vote;
 
-describe("Vote", () => {
+fdescribe("Vote", () => {
 
     beforeEach((done) => {
 
@@ -248,7 +248,7 @@ describe("Vote", () => {
                 })
                 .then((newPost) => {
                     expect(this.vote.postId).toBe(this.post.id);
-                    the.vote.setPost(newPost)
+                    this.vote.setPost(newPost)
                     .then((vote) => {
                         expect(vote.postId).toBe(newPost.id);
                         done();
@@ -279,22 +279,9 @@ describe("Vote", () => {
             });
         });
 
-        fdescribe("#getPoints()", () => {
+        describe("#getPoints()", () => {
 
-            beforeEach((done) => {
-                request.get({
-                    url: "http://localhost:3000/auth/fake",
-                    form: {
-                        userId: this.user.id
-                    }
-                },
-                    (err, res, body) => {
-                        done();
-                    }
-                );
-            });
-
-            it("should return the point total for the associated Post", (done) => {
+            it("should render the point total for the associated Post", (done) => {
 
                 Vote.create({
                     value: 1,
@@ -302,14 +289,14 @@ describe("Vote", () => {
                     postId: this.post.id
                 })
                 .then((vote) => {
-                    this.votes = this.vote.value;
+                    this.votes = this.post.votes;
                     this.post.getPoints()
                     .then((total) => {
                         expect(total).toBe(1);
                         done();
-                    })
-                })
+                    });
+                });
             });
-        })
+        });
     });
 });

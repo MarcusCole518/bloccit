@@ -23,7 +23,7 @@ module.exports = {
                 })
             } else {
 
-                Vote.create({
+                return Vote.create({
                     value: val,
                     postId: req.params.postId,
                     userId: req.user.id
@@ -36,5 +36,15 @@ module.exports = {
                 });
             }
         });
+    },
+
+    hasUpvoteFor(req, callback){
+        return Post.findById(req.params.id)
+        .then((post) => {
+            callback(null, post);
+        })
+        .catch((err) => {
+            callback(err);
+        })
     }
 }
