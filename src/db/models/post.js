@@ -45,11 +45,19 @@ module.exports = (sequelize, DataTypes) => {
   Post.prototype.getPoints = function(){
     console.log(this.votes);
 
-        if(this.votes.length === 0) return 0;
-        return this.votes
-          .map((v) => { return v.value })
-          .reduce((prev, next) => { return prev + next });
-      };
+    if(this.votes.length === 0) return 0;
+    return this.votes
+      .map((v) => { return v.value })
+      .reduce((prev, next) => { return prev + next });
+  };
+
+  Post.prototype.hasUpvoteFor = function(userId){
+    return this.votes[0].value == 1;
+  };
+
+  Post.prototype.hasDownVoteFor = function(userId){
+    return this.votes[0].value == -1;
+  };
 
   return Post;
 };

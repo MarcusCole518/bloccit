@@ -6,7 +6,7 @@ const Comment = require("../../src/db/models").Comment;
 const User = require("../../src/db/models").User;
 const Vote = require("../../src/db/models").Vote;
 
-fdescribe("Vote", () => {
+describe("Vote", () => {
 
     beforeEach((done) => {
 
@@ -289,14 +289,47 @@ fdescribe("Vote", () => {
                     postId: this.post.id
                 })
                 .then((vote) => {
-                    this.votes = this.post.votes;
-                    this.post.getPoints()
-                    .then((total) => {
-                        expect(total).toBe(1);
-                        done();
-                    });
-                });
+                    this.post.votes = [vote];
+                    this.vote = this.post.votes[0];
+                    expect(this.post.getPoints()).toBe(1);
+                    done();
+
+                })
             });
         });
+
+        describe('#hasUpvoteFor()', () => {
+          it("should return true if the post has an upvote", (done) => {
+            Vote.create({
+                value: 1,
+                userId: this.user.id,
+                postId: this.post.id
+            })
+            .then((vote) => {
+                this.post.votes = [vote];
+                this.vote = this.post.votes[0];
+
+                expect(this.post.hasUpvoteFor()).toBe(true);
+                done();
+            })
+          })
+        });
+
+        describe('#hasDownVoteFor()', () => {
+            it("should return true if the post has an upvote", (done) => {
+              Vote.create({
+                  value: -1,
+                  userId: this.user.id,
+                  postId: this.post.id
+              })
+              .then((vote) => {
+                  this.post.votes = [vote];
+                  this.vote = this.post.votes[0];
+
+                  expect(this.post.hasDownVoteFor()).toBe(true);
+                  done();
+              })
+            })
+          });
     });
 });
