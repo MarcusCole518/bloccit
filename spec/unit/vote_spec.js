@@ -50,7 +50,20 @@ describe("Vote", () => {
                 })
                 .then((res) => {
                     this.comment = res;
-                    done();
+
+                    Vote.create({
+                        value: 1,
+                        postId: this.post.id,
+                        userId: this.user.id
+                    })
+                    .then((vote) =>{
+                        this.vote = vote;
+                        done();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        done();
+                    });
                 })
                 .catch((err) => {
                     console.log(err);
@@ -115,6 +128,52 @@ describe("Vote", () => {
                 done();
             })
         });
+
+        it("should not create a vote with an invalid value", (done) => {
+            Vote.create({
+                value: 3,
+                postId: this.post.id,
+                userId: this.user.id
+            })
+            .then((vote) => {
+                done();
+            })
+            .catch((err) => {
+                expect(err.message).toContain("Validation isIn on value failed");
+                done();
+            })
+        });
+
+        it("should not create more than one vote on a post for user", (done) => {
+            Vote.create({
+                value: 1,
+                postId: this.post.id,
+                userId: this.user.id
+            })
+            .then((vote) => {
+                expect(vote.value).toBe(1);
+                expect(vote.postId).toBe(this.post.id);
+                expect(vote.userId).toBe(this.user.id);
+
+                Vote.create({
+                    value: 1,
+                    postId: this.post.id,
+                    userId: this.user.id
+                })
+                .then((doubleVote) => {
+                    done();
+                })
+                .catch((err) => {
+                    expect(err.message).toContain("Cannot create multiple votes");
+                    done();
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                done();
+            });
+        });
+
     });
 
     describe("setUser()", () => {
@@ -177,8 +236,8 @@ describe("Vote", () => {
             value: -1,
             postId: this.post.id,
             userId: this.user.id
-          })
-          .then((vote) => {
+        })
+        .then((vote) => {
             this.vote = vote;
 
             Post.create({
@@ -219,5 +278,38 @@ describe("Vote", () => {
                 });
             });
         });
-    })
+
+        fdescribe("#getPoints()", () => {
+
+            beforeEach((done) => {
+                request.get({
+                    url: "http://localhost:3000/auth/fake",
+                    form: {
+                        userId: this.user.id
+                    }
+                },
+                    (err, res, body) => {
+                        done();
+                    }
+                );
+            });
+
+            it("should return the point total for the associated Post", (done) => {
+
+                Vote.create({
+                    value: 1,
+                    userId: this.user.id,
+                    postId: this.post.id
+                })
+                .then((vote) => {
+                    this.votes = this.vote.value;
+                    this.post.getPoints()
+                    .then((total) => {
+                        expect(total).toBe(1);
+                        done();
+                    })
+                })
+            });
+        })
+    });
 });
