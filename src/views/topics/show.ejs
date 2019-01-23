@@ -8,7 +8,7 @@
         <% include ../static/partials/navbar.ejs %>
 
         <main class="container">
-        <h1><%= topic.title %>/h1>
+        <h1><%= topic.title %></h1>
 
             <% if(currentUser) { %>
                 <a href="/topics/<%= topic.id %>/posts/new" class="btn btn-success">New Post</a>
