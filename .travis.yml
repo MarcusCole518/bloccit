@@ -1,0 +1,4 @@
+language: node_js
+nvm:
+- "lts/*"
+- 6.4.1
