@@ -32,7 +32,7 @@ module.exports = {
             if(authorized){
                 Favorite.destroy({ where: { id }})
                 .then((deletedRecordsCount) => {
-                  callback(null, deletedRecordsCount);
+                    callback(null, deletedRecordsCount);
                 })
                 .catch((err) => {
                     callback(err);
