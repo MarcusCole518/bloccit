@@ -290,13 +290,17 @@ describe("routes : posts", () => {
                 const options = {
                     url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
                     form: {
-                        title: "Snowman Building Competition"
+                        title: "Snowman Building Competition",
+                        userId: this.user.id,
+                        topicId: this.topic.id
                     }
                 };
                 request.post(options, (err, res, body) => {
                     expect(err).toBeNull();
                     Post.findOne({
-                        where: {id: 1}
+                        where: {
+                            id: this.user.id
+                        }
                     })
                     .then((post) => {
                         expect(post.title).toBe("Snowman Building Competition");
