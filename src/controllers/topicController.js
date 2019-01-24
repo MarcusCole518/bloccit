@@ -38,7 +38,7 @@ module.exports = {
                 if(err) {
                     res.redirect(500, "topics/new");
                 } else {
-                    res.redirect(303, `topics/${topic.id}`);
+                    res.redirect(303, `${topic.id}`);
                 }
             });
         } else {
