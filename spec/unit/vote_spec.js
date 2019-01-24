@@ -189,7 +189,7 @@ describe("Vote", () => {
                 })
                 .then((newPost) => {
                     expect(this.vote.postId).toBe(this.post.id);
-                    the.vote.setPost(newPost)
+                    this.vote.setPost(newPost)
                     .then((vote) => {
                         expect(vote.postId).toBe(newPost.id);
                         done();
