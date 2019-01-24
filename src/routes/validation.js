@@ -5,7 +5,7 @@ module.exports = {
 
             req.checkParams("topicId", "must be valid").notEmpty().isInt();
             req.checkBody("title", "must be at least 2 characters in length").isLength({min: 2});
-            req.checkBody("title", "must be at least 10 characters in length").isLength({min: 10})
+            req.checkBody("body", "must be at least 10 characters in length").isLength({min: 10})
         }
         const errors = req.validationErrors();
         if(errors){
